@@ -1,0 +1,8 @@
+.feedback-appear {
+  opacity: 0.01;
+}
+
+.feedback-appear.feedback-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}

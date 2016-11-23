@@ -1,12 +1,12 @@
 import React, { Component} from 'react';
-import Main from './main';
 import Listeners from './Listeners';
+import FileController from './FileController';
 
 class App extends Component {
 	render() {
 		return (
-			<div>
-				<Main />
+			<div className="bright-green-bg" style={styles.main}>
+				<FileController />
 				<Listeners />
 			</div>
 		);	
@@ -14,3 +14,10 @@ class App extends Component {
 }
 
 export default App;
+
+const styles = {
+  main: {
+    height: '100%', 
+    width: '100%', 
+  },
+}

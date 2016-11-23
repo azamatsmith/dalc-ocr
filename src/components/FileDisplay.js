@@ -1,6 +1,9 @@
 import React, { Component} from 'react';
 import {connect} from 'react-redux';
 import {handleIncrement, handleDecrement} from '../actions/index';
+import ResultsCard from './ResultsCard';
+import ImageCard from './ImageCard';
+import Arrow from './shared/Arrow';
 
 class FileDisplay extends Component {
 	render() {
@@ -12,38 +15,38 @@ class FileDisplay extends Component {
 		const imageUrl = urlCreator.createObjectURL(blob);
 		const showButtons = this.props.endCount > 1 ? true : false;
 		return (
-			<div className="row" style={styles.main}>
-         
-        <div style={styles.nav}>
-          <div className="col-sm-2">
-            {showButtons ? <button className="btn btn-default" onClick={() => handleDecrement(selectedIndex)}>Back</button> : ''}
-          </div>
+      <div>
+        <div className="row" style={styles.top}>
+          <div className="col-sm-12 box">
+            <div style={styles.nav}>
+              <div className="col-sm-2">
+                {showButtons ? <Arrow cName="arrow arrow-left" marginTop={-3} handleClick={() => handleDecrement(selectedIndex)}/> : '' }
+              </div>
 
-          <div className="col-sm-8">
-            <p>File {selectedIndex + 1} of {endCount} </p>
-            <p>Filename: {file.fileName}</p>
-          </div>
+              <div className="col-sm-8 valign">
+                <span className="text-white">Filename: {file.fileName}</span>
+                <span className="text-white pull-right">File {selectedIndex + 1} of {endCount}</span>
+              </div>
 
-          <div className="col-sm-2">
-            {showButtons ? <button className="btn btn-default" onClick={() => handleIncrement(selectedIndex, endCount)}>Next</button> : ''}
+              <div className="col-sm-2">
+                {showButtons ? <Arrow cName="arrow pull-right" marginTop={-3} handleClick={() => handleIncrement(selectedIndex, endCount)}/> : ''}
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="col-sm-6">
-          <div className="col-sm-12 well text-center" style={styles.imageContainer}>
-            <h3>Original Image</h3>
-            <img src={imageUrl} style={styles.img} className="img-responsive"/>
+        <div className="row" style={styles.cardRow}>
+
+          <div className="col-sm-6" style={styles.wrapper}>
+            <ImageCard img={imageUrl} />
+          </div>
+
+          <div className="col-sm-6" style={styles.wrapper}>
+            <ResultsCard html={file.html} confidence={file.confidence} />
           </div>
         </div>
-        <div className="col-sm-6">
-          <h4 className="text-center">Confidence Level: {file.confidence}</h4>
-          <h2 className="text-center">OCR Results</h2>
-          <hr />
-          <div className="well">
-            <div dangerouslySetInnerHTML={{__html: file.html}} />
-          </div>
-        </div>
-			</div>
+
+      </div>
 		);	
 	}	
 }
@@ -56,18 +59,22 @@ function mapStateToProps({main}) {
 export default connect(mapStateToProps, {handleIncrement, handleDecrement})(FileDisplay);
 
 const styles = {
-	main: {
-		marginTop: 15	
+	top: {
+		marginTop: 45,	
+    paddingLeft: 5,
+    paddingRight: 5,
 	},
   nav: {
-    margin: '5px 0px 65px'  
+    paddingTop: 18, 
+    paddingBottom: 34, 
   },
-	img: {
-		margin: '20px 0',
-		maxHeight: '100%',
-		maxWidth: '100%',
-	},
-  imageContainer: {
-    minHeight: '100%' 
+  wrapper: {
+    padding: 5, 
+    height: 620, 
+    marginBottom: 33,
+    marginTop: -26,
+  },
+  cardRow: {
+    marginBottom: 42 
   },
 };
